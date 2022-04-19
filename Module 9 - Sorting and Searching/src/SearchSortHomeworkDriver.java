@@ -5,15 +5,126 @@ import java.util.Arrays;
 public class SearchSortHomeworkDriver {
 
 	public static double sortedness(Comparable[] array) {
-		// YOUR CODE HERE 
-		return 0; // placeholder so the code compiles: replace with your own code
+		if (array.length<=1)
+			return 1.0;
+		else {				
+			int sortedCounter = 0;
+			for (int i=0; i < array.length-1; i++) {
+				if (array[i].compareTo(array[i+1]) <= 0)
+					sortedCounter++;				
+			}	
+			return sortedCounter*1.0/(array.length-1);
+		}
 	}
+
+	private static int sortedCounter = 0;
+	private static int lengthCounter = 0;
 	
 	public static double sortedness(Node<Comparable> node) {
-		// YOUR CODE HERE 
-		// NOTE: If you want to use a local Node variable, declare it as: Node<Comparable> temp 
-		return 0; // placeholder so the code compiles: replace with your own code
+		sortedCounter = 0; //reset static level variables
+		lengthCounter = 0; //reset static level variables
+		if (node == null || node.next == null) { //handles null and singleton
+			return 1.0;
+		}
+		else //2 or more nodes
+			sortednessNodeHelper(node);
+			return sortedCounter*1.0/lengthCounter;
 	}
+	
+	private static void sortednessNodeHelper(Node<Comparable> node) {	
+		 if (node.next != null) {
+			 lengthCounter++;
+			 if ((node.data).compareTo(node.next.data) <= 0) {
+					sortedCounter++;
+					sortednessNodeHelper(node.next);				
+				}
+			 else 
+				sortednessNodeHelper(node.next);
+			}				 
+		}
+	
+/*
+ space = 8/2 = 4 -> 5
+
+begin = 0
+[30, -, -, -, 10, -, -, -] becomes [10, -, -, -, 30, -, -, -]
+current contents of array: [10, 20, 24, 16, 30, 25, 12, 14]
+
+
+begin = 1
+[-, 20, -, -, -, -, 12, -] becomes [-, 12, -, -, -, -, 20, -] 
+current contents of array: [10, 12, 24, 16, 30, 25, 20, 14]
+
+
+begin = 2
+[-, -, 24, -, -, - -, 14] becomes [-, -, 14, -, -, - -, 24]
+current contents of array: [10, 12, 14, 16, 30, 25, 20, 24]
+
+
+begin = 3
+[-, -, -, 16, -, -, -, -] becomes [-, -, -, 16, -, -, -, -]
+current contents of array: [10, 12, 14, 16, 30, 25, 20, 24]
+
+begin = 4
+[-, -, -, -, 30, -, -, -] becomes [-, -, -, -, 30, -, -, -]
+current contents of array: [10, 12, 14, 16, 30, 25, 20, 24]
+
+no more swaps for this spacing.
+
+space = 5/2 = 2.5 -> 2 -> 3
+
+
+begin = 0
+[10, -, -, 16, -, -, 20, -] becomes [10, -, -, 16, -, -, 20, -]
+current contents of array: [10, 12, 14, 16, 30, 25, 20, 24]
+
+
+begin = 1
+[-, 12, -, -, 30, -, -, 24] becomes [-, 12, -, -, 24, -, -, 30]
+current contents of array: [10, 12, 14, 16, 24, 25, 20, 30]
+
+
+begin = 2
+[-, -, 14, -, -, 25, -, -] becomes [-, -, 14, -, -, 25, -, -]
+current contents of array: [10, 12, 14, 16, 24, 25, 20, 30]
+
+
+no more swaps for this spacing
+
+space = 3/2 = 1.5 -> 1
+this is not insertion sort
+[10, 12, 14, 16, 24, 25, 20, 30] becomes [10, 12, 14, 16, 20, 25, 24, 30]
+
+
+[37, 23, 28, 21, 12, 34, 15, 19]
+
+[37, 23, 28, 21]    [12, 34, 15, 19]
+
+[37, 23] [28, 21]    [12, 34] [15, 19]
+
+[37] [23] [28] [21]    [12] [34] [15] [19]
+
+[23, 37] [21, 28]    [12, 34] [15, 19]
+
+[21, 23, 28, 37]    [12, 15, 19, 34]
+
+[12, 15, 19, 21, 23, 28, 34, 37]
+ */
+	
+//	private static void sortednessNodeHelper(Node<Comparable> node, int sortedCounter, int lengthCounter) {
+//		Node<Comparable> currentNode = node;
+//		
+//		while (currentNode != null) {//base case
+//			if (currentNode.next == null) {
+//				return sortedCounter*1.0/lengthCounter;
+//			}
+//			else if ((currentNode.data).compareTo(currentNode.next.data) <= 0) {
+//				return sortednessNodeHelper(node.next, sortedCounter+1, lengthCounter+1);
+//			}
+//			else
+//				return sortednessNodeHelper(node.next, sortedCounter, lengthCounter+1);
+//		}
+//	}
 
 	private static boolean allTestsPassed = true;
 	
